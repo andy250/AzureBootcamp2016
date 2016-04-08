@@ -1,0 +1,87 @@
+﻿@model dynamic
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>IOT Consumer</title>
+    <script src="~/Scripts/jquery-1.6.4.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="~/signalr/hubs" type="text/javascript"></script>
+    <script src="~/Scripts/Chart.js"></script>
+</head>
+<body style="padding: 0 30px 20px; box-sizing: border-box; max-height: 100%; font-family: arial, sans-serif;">
+    <div id="sensorData">
+        <h3>Temperatura [°C]</h3>
+        <canvas id="temp" height="320" width="1600"></canvas>
+        <h3>Ciśnienie [hPa]</h3>
+        <canvas id="pressure" height="320" width="1600"></canvas>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            var tempChart = null;
+            var pressureChart = null;
+            var counter = 0;
+
+            var tempData = {
+                labels: [],
+                datasets: [
+                    {
+                        label: "TempDS",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: []
+                    }
+                ]
+
+            };
+            var pressData = {
+                labels: [],
+                datasets: [
+                    {
+                        label: "PressureDS",
+                        fillColor: "rgba(180,220,250,0.2)",
+                        strokeColor: "rgba(180,220,250,1)",
+                        pointColor: "rgba(180,220,250,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(180,220,250,1)",
+                        data: []
+                    }
+                ]
+
+            };
+
+            var socket = $.connection.sensorHub;
+            socket.client.broadcastMessage = function (data) {
+                var x = $.parseJSON(data);
+                tempChart.addData([x.temp], x.epoch);
+                pressureChart.addData([x.pressure], x.epoch);
+                counter++;
+                if (counter > 20) {
+                    tempChart.removeData();
+                    pressureChart.removeData();
+                }
+            };
+            $.connection.hub.start().done(function () {
+            });
+
+            var ctxTemp = document.getElementById("temp").getContext("2d");
+            var ctxPressure = document.getElementById("pressure").getContext("2d");
+
+            var chartOpts = { responsive: true };
+
+            tempChart = new Chart(ctxTemp).Line(tempData, chartOpts);
+            pressureChart = new Chart(ctxPressure).Line(pressData, chartOpts);
+        })
+    </script>
+</body>
+</html>

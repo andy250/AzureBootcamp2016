@@ -18,7 +18,7 @@ p = 1013
 while True:
     t = t + random.uniform(-0.2, 0.2)
     p = p + random.uniform(-1, 1)
-    msg = b"{{message: 'Hello from Python Sim!', temp: {0}, pressure: {1}, epoch: {2} }}".format(t, p, int(time.time()))
+    msg = b'{{"message": "Hello from Python Sim!", "temp": {0}, "pressure": {1}, "epoch": {2} }}'.format(t, p, int(time.time()))
     print msg
     print(device.send(msg))
     time.sleep(2)

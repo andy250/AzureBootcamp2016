@@ -7,3 +7,8 @@ packages/
 /DevEx
 *.pyc
 /Docs
+
+Consumer/Processor/Properties/PublishProfiles/akiotprocessor - Web Deploy.pubxml
+Consumer/Processor/Properties/PublishProfiles/akiotprocessor - Web Deploy.pubxml.user
+Consumer/UI/Properties/PublishProfiles/akiotprocessor - Web Deploy.pubxml
+Consumer/UI/Properties/PublishProfiles/akiotprocessor - Web Deploy.pubxml.user

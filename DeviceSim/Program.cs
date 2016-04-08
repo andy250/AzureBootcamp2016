@@ -41,7 +41,7 @@ namespace DeviceSim
 
             Console.WriteLine($"Sending {temp} / {pressure}");
 
-            var data = JsonConvert.SerializeObject(new { message= "Hello from Windows Sim!", temp, pressure, epoch = Epoch() });
+            var data = JsonConvert.SerializeObject(new { message = "Hello from Windows Sim!", temp, pressure, epoch = Epoch() });
             client.SendEventAsync(new Message(Encoding.UTF8.GetBytes(data))).Wait();
         }
 

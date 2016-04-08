@@ -22,7 +22,7 @@ print 'Sealevel Pressure = {0:0.2f} Pa'.format(sensor.read_sealevel_pressure())
 while True:
     t = sensor.read_temperature()
     p = sensor.read_pressure()
-    msg = b"{{message: 'Hello from Python Sensor!', temp: {0:0.2f}, pressure: {1:0.2f}, epoch: {2} }}".format(t, p / 100.0, int(time.time()))
+    msg = b'{{"message": "Hello from Python Sensor!", "temp": {0:0.2f}, "pressure": {1:0.2f}, "epoch": {2} }}'.format(t, p / 100.0, int(time.time()))
     print msg
     print(device.send(msg))
     time.sleep(2)
